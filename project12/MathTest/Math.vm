@@ -1,14 +1,16 @@
 function Math.init 2
+push constant 16
+pop static 1
 push constant 0
 pop local 0
 push constant 1
 pop local 1
-push constant 15
+push static 1
 call Array.new 1
 pop static 0
 label WHILE_EXP0
 push local 0
-push constant 15
+push static 1
 lt
 not
 if-goto WHILE_END0
@@ -21,9 +23,13 @@ pop pointer 1
 push temp 0
 pop that 0
 push local 1
-push constant 2
-call Math.multiply 2
+push local 1
+add
 pop local 1
+push local 0
+push constant 1
+add
+pop local 0
 goto WHILE_EXP0
 label WHILE_END0
 push constant 0
@@ -43,24 +49,29 @@ pop argument 0
 label IF_FALSE0
 push argument 0
 return
-function Math.multiply 4
+function Math.multiply 3
 push constant 0
 pop local 0
 push argument 0
 pop local 1
 push constant 0
 pop local 2
-push constant 15
-pop local 3
 label WHILE_EXP0
 push local 2
-push constant 15
+push static 1
 lt
 not
 if-goto WHILE_END0
 push argument 1
 push local 2
-call Math.isBitTrue 2
+push static 0
+add
+pop pointer 1
+push that 0
+and
+push constant 0
+eq
+not
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
@@ -70,8 +81,8 @@ add
 pop local 0
 label IF_FALSE0
 push local 1
-push constant 2
-call Math.multiply 2
+push local 1
+add
 pop local 1
 push local 2
 push constant 1
@@ -81,15 +92,15 @@ goto WHILE_EXP0
 label WHILE_END0
 push local 0
 return
-function Math.isBitTrue 0
+function Math.divide 0
 push argument 0
-push argument 1
-push static 0
-add
-pop pointer 1
-push that 0
-and
-push constant 0
-eq
-not
+return
+function Math.sqrt 0
+push argument 0
+return
+function Math.max 0
+push argument 0
+return
+function Math.min 0
+push argument 0
 return
