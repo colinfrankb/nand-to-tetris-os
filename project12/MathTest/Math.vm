@@ -1,0 +1,95 @@
+function Math.init 2
+push constant 0
+pop local 0
+push constant 1
+pop local 1
+push constant 15
+call Array.new 1
+pop static 0
+label WHILE_EXP0
+push local 0
+push constant 15
+lt
+not
+if-goto WHILE_END0
+push local 0
+push static 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 1
+push constant 2
+call Math.multiply 2
+pop local 1
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Math.abs 0
+push argument 0
+push constant 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 0
+push constant 1
+neg
+call Math.multiply 2
+pop argument 0
+label IF_FALSE0
+push argument 0
+return
+function Math.multiply 4
+push constant 0
+pop local 0
+push argument 0
+pop local 1
+push constant 0
+pop local 2
+push constant 15
+pop local 3
+label WHILE_EXP0
+push local 2
+push constant 15
+lt
+not
+if-goto WHILE_END0
+push argument 1
+push local 2
+call Math.isBitTrue 2
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 0
+push local 1
+add
+pop local 0
+label IF_FALSE0
+push local 1
+push constant 2
+call Math.multiply 2
+pop local 1
+push local 2
+push constant 1
+add
+pop local 2
+goto WHILE_EXP0
+label WHILE_END0
+push local 0
+return
+function Math.isBitTrue 0
+push argument 0
+push argument 1
+push static 0
+add
+pop pointer 1
+push that 0
+and
+push constant 0
+eq
+not
+return
