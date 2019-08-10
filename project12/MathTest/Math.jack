@@ -74,21 +74,86 @@ class Math {
      *  the Jack expressions x/y and divide(x,y) return the same value.
      */
     function int divide(int x, int y) {
-        return x;
+        var int q, absoluteX, absoluteY, arithmeticNegate;
+
+        let absoluteX = Math.abs(x);
+        let absoluteY = Math.abs(y);
+
+        if (~(absoluteX = x) | ~(absoluteY = y)) {
+          let arithmeticNegate = -1;
+        }
+        else {
+          let arithmeticNegate = 1;
+        }
+
+        if (absoluteY > absoluteX) {
+          return 0;
+        }
+
+        let q = Math.divide(absoluteX, absoluteY * 2);
+        
+        if ((absoluteX - (2 * q * absoluteY)) < absoluteY) { // y can't go into x
+          return (2 * q) * arithmeticNegate;
+        }
+        else { // y can still go into x
+          return ((2 * q) + 1) * arithmeticNegate;
+        }
     }
 
     /** Returns the integer part of the square root of x. */
     function int sqrt(int x) {
-        return x;
+        var int y, counter, powerResult;
+
+        let y = 0;
+        let counter = (bitLength / 2) - 1;
+
+        while (counter > -1) {
+          let powerResult = Math.power((y + Math.power(2, counter)), 2);
+          if ((powerResult < x) | (powerResult = x)) {
+            if (powerResult > 0) {
+              let y = y + Math.power(2, counter);
+            }
+          }
+
+          let counter = counter - 1;
+        }
+
+        return y;
+    }
+
+    function int power(int x, int exponent) {
+      var int result;
+      
+      if (exponent = 0)
+      {
+        return 1;
+      }
+
+      let result = x;
+
+      while (exponent > 1) {
+        let result = result * x;
+        let exponent = exponent - 1;
+      }
+
+      return result;
     }
 
     /** Returns the greater number. */
     function int max(int a, int b) {
-        return a;
+        if (a > b) {
+          return a;
+        }
+
+        return b;
     }
 
     /** Returns the smaller number. */
     function int min(int a, int b) {
-        return a;
+        if (a < b) {
+          return a;
+        }
+
+        return b;
     }
 }
