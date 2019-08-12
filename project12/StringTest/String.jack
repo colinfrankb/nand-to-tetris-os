@@ -11,76 +11,141 @@
  * string-oriented operations.
  */
 class String {
-    field Array charArray;
-    field int stringLength;
+    field Array _charArray;
+    field int _currentLength;
+    field int _maxLength;
 
     /** constructs a new empty string with a maximum length of maxLength
      *  and initial length of 0. */
     constructor String new(int maxLength) {
-      let charArray = Array.new(maxLength);
-      let stringLength = 0;
+      if (maxLength < 1) {
+        let _maxLength = 1;
+      }
+      else {
+        let _maxLength = maxLength;
+      }
+
+      let _charArray = Array.new(_maxLength);
+      let _currentLength = 0;
+      
 
       return this;
     }
 
     /** Disposes this string. */
     method void dispose() {
-      do charArray.dispose();
+      do _charArray.dispose();
 
       return;
     }
 
     /** Returns the current length of this string. */
     method int length() {
-      return stringLength;
+      return _currentLength;
     }
 
     /** Returns the character at the j-th location of this string. */
     method char charAt(int j) {
-      return;
+      return _charArray[j];
     }
 
     /** Sets the character at the j-th location of this string to c. */
     method void setCharAt(int j, char c) {
+      if (j < _maxLength) {
+        let _charArray[j] = c;
+      }
+      
       return;
     }
 
     /** Appends c to this string's end and returns this string. */
     method String appendChar(char c) {
-      return;
+      let _charArray[_currentLength] = c;
+      let _currentLength = _currentLength + 1;
+
+      return this;
     }
 
     /** Erases the last character from this string. */
     method void eraseLastChar() {
+      let _charArray[(_currentLength - 1)] = null;
+      let _currentLength = _currentLength - 1;
+      
       return;
     }
 
     /** Returns the integer value of this string, 
      *  until a non-digit character is detected. */
     method int intValue() {
-      return;
+      var int value, counter, c, digit, arithmeticNegation;
+
+      let arithmeticNegation = 1;
+      let value = 0;
+      let counter = 1;
+      let c = charAt(0);
+
+      if ((c - 48 > -1) & (c - 48 < 10)) {
+        let value = c - 48;
+      }
+      else {
+        if (c = 45) {
+          let arithmeticNegation = -1;
+        }
+      }
+
+      while (counter < _currentLength) {
+        let c = charAt(counter);
+        let value = (value * 10) + (c - 48); // multiplying by 10 shifts the value, for when the number is multiple digits
+                                             // 123 is 0 * 10 + 1 = 1
+                                             //        1 * 10 + 2 = 12
+                                             //        12 * 10 + 3 = 123
+        let counter = counter + 1;
+      }
+
+      return value * arithmeticNegation;
     }
 
     /** Sets this string to hold a representation of the given value. */
     method void setInt(int val) {
+      let _currentLength = 0;
+
+      do int2String(val);
+
+      return;
+    }
+
+    method void int2String(int val) {
+      var int lastDigit, c;
+
+      let lastDigit = val - ((val / 10) * 10); // lastDigit is calculated correctly even when val is negative
+      let c = Math.abs(lastDigit) + 48;
+
+      if (Math.abs(val) < 10) {
+        if (lastDigit < 0) {
+          do appendChar(45);  
+        }
+        do appendChar(c);  
+      }
+      else {
+        do int2String(val / 10);
+        do appendChar(c);
+      }
+
       return;
     }
 
     /** Returns the new line character. */
     function char newLine() {
-      //ASCII code 128
-      return;
+      return 128;
     }
 
     /** Returns the backspace character. */
     function char backSpace() {
-      //ASCII code 129
-      return;
+      return 129;
     }
 
     /** Returns the double quote (") character. */
     function char doubleQuote() {
-      //ASCII code 130
-      return;
+      return 34;
     }
 }
