@@ -1,0 +1,109 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Screen.jack
+
+/**
+ * A library of functions for displaying graphics on the screen.
+ * The Hack physical screen consists of 256 rows (indexed 0..255, top to bottom)
+ * of 512 pixels each (indexed 0..511, left to right). The top left pixel on 
+ * the screen is indexed (0,0).
+ */
+class Screen {
+
+    /** Initializes the Screen. */
+    function void init() {
+      return;
+    }
+
+    /** Erases the entire screen. */
+    function void clearScreen() {
+      return;
+    }
+
+    /** Sets the current color, to be used for all subsequent drawXXX commands.
+     *  Black is represented by true, white by false. */
+    function void setColor(boolean b) {
+      return;
+    }
+
+    /** Draws the (x,y) pixel, using the current color. 
+    x and y are zero-indexed
+    */
+    function void drawPixel(int x, int y) {
+      var int targetMemoryAddress;
+      var int currentWordValue;
+      var int newWordValue;
+      var int counter;
+      var int targetBitPower;
+      var int exponent;
+
+      let counter = 0;
+      let targetBitPower = 1;
+
+      //The screen size is 256 x 512 pixels
+      //A row on the screen maps to 32 consequtive words. Words in
+      //the Hack computer is 16-bit long
+      let targetMemoryAddress = 16384 + (y * 32) + (x / 16);
+      let currentWordValue = Memory.peek(targetMemoryAddress);
+      let exponent = x - ((x / 16) * 16);
+
+      while(counter < exponent) {
+        let targetBitPower = targetBitPower * 2;
+        let counter = counter + 1;
+      }
+
+      let newWordValue = currentWordValue | targetBitPower;
+
+      do Memory.poke(targetMemoryAddress, newWordValue);
+
+      return;
+    }
+
+    /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
+    function void drawLine(int x1, int y1, int x2, int y2) {
+      var int a, b, dx, dy, fractionOfDX, fractionOfDY;
+
+      let a = 0;
+      let b = 0;
+      let dx = x2 - x1;
+      let dy = y2 - y1;
+      let fractionOfDX = 1;
+      let fractionOfDY = 1;
+
+      while((a < (dx + 1)) & (b < (dy + 1))) {
+        
+        do Screen.drawPixel(x1 + a, y1 + b);
+
+        if (dx > 0) {
+          let fractionOfDX = a / dx;
+        }
+        
+        if (dy > 0) {
+          let fractionOfDY = b / dy;
+        }
+
+        if(fractionOfDX < fractionOfDY) {
+          let a = a + 1;
+        }
+        else {
+          let b = b + 1;
+        }
+      }
+      
+      do Output.printString("Done");
+
+      return;
+    }
+
+    /** Draws a filled rectangle whose top left corner is (x1, y1)
+     * and bottom right corner is (x2,y2), using the current color. */
+    function void drawRectangle(int x1, int y1, int x2, int y2) {
+      return;
+    }
+
+    /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
+    function void drawCircle(int x, int y, int r) {
+      return;
+    }
+}
