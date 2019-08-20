@@ -21,6 +21,17 @@ class Screen {
 
     /** Erases the entire screen. */
     function void clearScreen() {
+      var int currentMemoryAddress, end;
+
+      let currentMemoryAddress = 16384;
+      let end = currentMemoryAddress + 8092;
+      
+      while(currentMemoryAddress < end) {
+        do Memory.poke(currentMemoryAddress, 0);
+
+        let currentMemoryAddress = currentMemoryAddress + 1;
+      }
+
       return;
     }
 
@@ -41,12 +52,6 @@ class Screen {
       var int counter;
       var int targetBitPower;
       var int exponent;
-
-      // do Output.printString("x: ");
-      // do Output.printInt(x);
-      // do Output.println();
-      // do Output.printString("y: ");
-      // do Output.printInt(y);
 
       let counter = 0;
       let targetBitPower = 1;
@@ -77,27 +82,38 @@ class Screen {
 
     /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
     function void drawLine(int x1, int y1, int x2, int y2) {
-      var int a, b, dx, dy, adyMinusbdx;
+      var int a, b, dx, dy, adyMinusbdx, nega, negb;
 
       let a = 0;
       let b = 0;
       let dx = Math.abs(x2 - x1);
-      
       let dy = Math.abs(y2 - y1);
       let adyMinusbdx = 0;
+      let nega = 1;
+      let negb = 1;
+
+      if (x2 < x1) {
+        let nega = -1;
+      }
+
+      if (y2 < y1) {
+        let negb = -1;
+      }
 
       while((a < (dx + 1)) & (b < (dy + 1))) {
         
-        do Screen.drawPixel(x1 + a, y1 + b);
+        do Screen.drawPixel(x1 + (a * nega), y1 + (b * negb));
 
-        if ((adyMinusbdx < 0) | (dy = 0)) {
+        if (((dx > 0) & adyMinusbdx < 0) | (dy = 0)) {
           let a = a + 1;
           let adyMinusbdx = adyMinusbdx + dy;
         }
-
-        if ((adyMinusbdx > -1) | (dx = 0)) {
-          let b = b + 1;
-          let adyMinusbdx = adyMinusbdx - dx;
+        else
+        {
+          if(dy > 0) {
+            let b = b + 1;
+            let adyMinusbdx = adyMinusbdx - dx;
+          }
         }
       }
       
