@@ -42,6 +42,12 @@ class Screen {
       var int targetBitPower;
       var int exponent;
 
+      // do Output.printString("x: ");
+      // do Output.printInt(x);
+      // do Output.println();
+      // do Output.printString("y: ");
+      // do Output.printInt(y);
+
       let counter = 0;
       let targetBitPower = 1;
 
@@ -63,7 +69,6 @@ class Screen {
       else {
         let newWordValue = currentWordValue & (~(targetBitPower));
       }
-      
 
       do Memory.poke(targetMemoryAddress, newWordValue);
 
@@ -76,20 +81,21 @@ class Screen {
 
       let a = 0;
       let b = 0;
-      let dx = x2 - x1;
-      let dy = y2 - y1;
+      let dx = Math.abs(x2 - x1);
+      
+      let dy = Math.abs(y2 - y1);
       let adyMinusbdx = 0;
 
       while((a < (dx + 1)) & (b < (dy + 1))) {
         
         do Screen.drawPixel(x1 + a, y1 + b);
 
-        if (adyMinusbdx < 0 | dy = 0) {
+        if ((adyMinusbdx < 0) | (dy = 0)) {
           let a = a + 1;
           let adyMinusbdx = adyMinusbdx + dy;
         }
 
-        if (adyMinusbdx > -1 | dx = 0) {
+        if ((adyMinusbdx > -1) | (dx = 0)) {
           let b = b + 1;
           let adyMinusbdx = adyMinusbdx - dx;
         }
@@ -118,6 +124,21 @@ class Screen {
 
     /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
     function void drawCircle(int x, int y, int r) {
+      var int dx, dy, endOfRange, rSquared, yPlusdy;
+
+      let dy = -(r);
+      let endOfRange = r + 1;
+      let rSquared = r * r;
+
+      while(dy < endOfRange) {
+        let dx = Math.sqrt(rSquared - (dy * dy));
+        let yPlusdy = y + dy;
+        
+        do Screen.drawLine((x - dx), yPlusdy, (x + dx), yPlusdy);
+
+        let dy = dy + 1;
+      }
+
       return;
     }
 }

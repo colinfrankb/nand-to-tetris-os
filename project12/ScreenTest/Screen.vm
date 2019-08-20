@@ -84,10 +84,12 @@ pop local 1
 push argument 2
 push argument 0
 sub
+call Math.abs 1
 pop local 2
 push argument 3
 push argument 1
 sub
+call Math.abs 1
 pop local 3
 push constant 0
 pop local 4
@@ -117,9 +119,9 @@ push local 4
 push constant 0
 lt
 push local 3
-or
 push constant 0
 eq
+or
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
@@ -137,9 +139,9 @@ push constant 1
 neg
 gt
 push local 2
-or
 push constant 0
 eq
+or
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
@@ -185,6 +187,50 @@ goto WHILE_EXP0
 label WHILE_END0
 push constant 0
 return
-function Screen.drawCircle 0
+function Screen.drawCircle 5
+push argument 2
+neg
+pop local 1
+push argument 2
+push constant 1
+add
+pop local 2
+push argument 2
+push argument 2
+call Math.multiply 2
+pop local 3
+label WHILE_EXP0
+push local 1
+push local 2
+lt
+not
+if-goto WHILE_END0
+push local 3
+push local 1
+push local 1
+call Math.multiply 2
+sub
+call Math.sqrt 1
+pop local 0
+push argument 1
+push local 1
+add
+pop local 4
+push argument 0
+push local 0
+sub
+push local 4
+push argument 0
+push local 0
+add
+push local 4
+call Screen.drawLine 4
+pop temp 0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP0
+label WHILE_END0
 push constant 0
 return
