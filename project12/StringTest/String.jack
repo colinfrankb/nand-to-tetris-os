@@ -116,12 +116,13 @@ class String {
     method void int2String(int val) {
       var int lastDigit, c;
 
-      let lastDigit = val - ((val / 10) * 10); // lastDigit is calculated correctly even when val is negative
+      let lastDigit = val - ((val / 10) * 10); // lastDigit is calculated correctly even when val is negative.
+                                               // Calculation is the modulus formula.
       let c = Math.abs(lastDigit) + 48;
 
       if (Math.abs(val) < 10) {
         if (lastDigit < 0) {
-          do appendChar(45);  
+          do appendChar(45); // Start string with "-" symbol
         }
         do appendChar(c);  
       }
