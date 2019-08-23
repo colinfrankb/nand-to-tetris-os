@@ -8,8 +8,13 @@
  */
 class Keyboard {
 
+    static int _memoryMapAddress;
+
     /** Initializes the keyboard. */
     function void init() {
+        let _memoryMapAddress = 24576;
+
+        return;
     } 
 
     /**
@@ -33,6 +38,7 @@ class Keyboard {
      * F1 - F12 = 141 - 152
      */
     function char keyPressed() {
+        return Memory.peek(_memoryMapAddress);
     }
 
     /**								
@@ -41,6 +47,23 @@ class Keyboard {
      * of the pressed key.
      */
     function char readChar() {
+        var char asciiCode, key;
+
+        // wait till a key is pressed
+        while (key = 0) {
+            let key = Keyboard.keyPressed();
+        }
+
+        let asciiCode = key;
+
+        // wait untill the key is released
+        while (~(key = 0)) {
+            let key = Keyboard.keyPressed();
+        }
+
+        do Output.printChar(asciiCode);
+
+        return asciiCode;
     }
 
     /**								
@@ -49,6 +72,35 @@ class Keyboard {
      * and returns its value. Also handles user backspaces.
      */
     function String readLine(String message) {
+        var char asciiCode;
+        var String userInput;
+        var boolean pressedEnter;
+
+        let pressedEnter = false;
+        let asciiCode = 0;
+        let userInput = String.new(16); // hardcoding String max length, based on tests in Main.jack
+        
+        do Output.printString(message);
+
+        while (~pressedEnter) {
+            let asciiCode = Keyboard.readChar();
+
+            // ASCII Code for newLine is 128
+            if (asciiCode = 128) {
+                let pressedEnter = true;
+            }
+            else {
+                // ASCII Code for newLine is 129
+                if (asciiCode = 129) {
+                    do userInput.eraseLastChar();
+                }
+                else {
+                    do userInput.appendChar(asciiCode);
+                }
+            }
+        }
+
+        return userInput;
     }   
 
     /**								
@@ -58,5 +110,6 @@ class Keyboard {
      * entered text is detected). Also handles user backspaces. 
      */
     function int readInt(String message) {
+        return 0;
     }
 }
