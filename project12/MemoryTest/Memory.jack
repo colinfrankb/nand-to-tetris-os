@@ -1,0 +1,82 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+
+/**
+ * This library provides two services: direct access to the computer's main
+ * memory (RAM), and allocation and recycling of memory blocks. The Hack RAM
+ * consists of 32,768 words, each holding a 16-bit binary number.
+ * Heap resides at 2048-16383
+ */ 
+class Memory {
+
+    static Array _freeList;
+
+    /** Initializes the class. */
+    function void init() {
+      let _freeList = 2048;
+      let _freeList[0] = 14335;
+      let _freeList[1] = null;
+    }
+
+    /** Returns the RAM value at the given address. */
+    function int peek(int address) {
+      var Array memory;
+
+      let memory = address;
+
+      return memory[0];
+    }
+
+    /** Sets the RAM value at the given address to the given value. */
+    function void poke(int address, int value) {
+      var Array memory;
+
+      let memory = address;
+      let memory[0] = value;
+
+      return;
+    }
+
+    /** Finds an available RAM block of the given size and returns
+     *  a reference to its base address. */
+    function int alloc(int size) {
+      // Implementing first-fit heuristic for finding suitable segment
+      // in freeList
+      var Array previousSegment;
+      var Array nextSegment;
+      var Array suitableSegment;
+
+      let nextSegment = _freeList;
+
+      while (~(suitableSegment = null) & ~(nextSegment = null)) {
+        // Cater for two housekeeping fields
+        if ((nextSegment[0] - 2) > (size + 2)) {
+          let suitableSegment = nextSegment + (nextSegment[0] - (size + 2));
+          let suitableSegment[0] = size + 2;
+
+          let nextSegment[0] = nextSegment[0] - (size + 2);  
+          let foundSegment = true;        
+        }
+        else {
+          if (nextSegment[0] = (size + 2)) {
+            // TODO: set length of suitableSegment
+            // TODO: point previousSegment.next to nextSegment.next
+
+          }
+        }
+
+        let previousSegment = nextSegment;  
+        let nextSegment = nextSegment[1];
+      }
+
+
+      return suitableSegment + 1;
+    }
+
+    /** De-allocates the given object (cast as an array) by making
+     *  it available for future allocations. */
+    function void deAlloc(Array o) {
+    }    
+}
