@@ -49,19 +49,21 @@ class Memory {
       var Array previousSegment;
       var Array nextSegment;
       var Array suitableSegment;
+      var int housekeepingBlocks;
 
+      let housekeepingBlocks = 2;
       let nextSegment = _freeList;
       let suitableSegment = null;
 
       while ((suitableSegment = null) & ~(nextSegment = null)) {
         // Cater for two housekeeping fields
         // Ensure possible segment has enough including housekeeping fields
-        // if ((nextSegment[0] - 2) > (size + 2)) {
-        //   let suitableSegment = nextSegment + (nextSegment[0] - (size + 2));
-        //   let suitableSegment[0] = size + 2;
+        if ((nextSegment[0] - housekeepingBlocks) > (size + 1)) {
+          let suitableSegment = nextSegment + (nextSegment[0] - size);
+          let suitableSegment[0] = size + 1;
 
-        //   let nextSegment[0] = nextSegment[0] - (size + 2);  
-        // }
+          let nextSegment[0] = nextSegment[0] - (size + 1);  
+        }
         // else {
         //   if (nextSegment[0] = (size + 2)) {
         //     let suitableSegment = nextSegment;
@@ -78,7 +80,7 @@ class Memory {
         let nextSegment = nextSegment[1];
       }
 
-      return suitableSegment[1];
+      return suitableSegment + 1;
     }
 
     /** De-allocates the given object (cast as an array) by making
@@ -88,6 +90,7 @@ class Memory {
       var Array nextSegment;
       var boolean foundEnd;
 
+      let foundEnd = false;
       let segment = o;
       let nextSegment = _freeList;
 

@@ -8,20 +8,23 @@ class Main {
 
     /** Performs various memory manipulations. */
     function void main() {
-        // var int temp;
-        // var Array a, b, c;
+        var int temp;
+        var Array a, b, c;
         
         // do Memory.poke(8000, 333);       // RAM[8000] = 333
         // let temp = Memory.peek(8000);
         // do Memory.poke(8001, temp + 1);  // RAM[8001] = 334
         
-        // let a = Array.new(3);            // uses Memory.alloc
-        // let a[2] = 222;
-        // do Memory.poke(8002, a[2]);      // RAM[8002] = 222
+        // let temp = Memory.alloc(3);
+        // do Memory.poke(8002, temp);
+
+        let a = Array.new(3);            // uses Memory.alloc
+        let a[2] = 222;
+        do Memory.poke(8002, a[2]);      // RAM[8002] = 222
         
-        // let b = Array.new(3);
-        // let b[1] = a[2] - 100;
-        // do Memory.poke(8003, b[1]);       // RAM[8003] = 122
+        let b = Array.new(3);
+        let b[1] = a[2] - 100;
+        do Memory.poke(8003, b[1]);       // RAM[8003] = 122
         
         // let c = Array.new(500);
         // let c[499] = a[2] - b[1];
