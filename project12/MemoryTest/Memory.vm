@@ -150,6 +150,8 @@ push constant 1
 push local 1
 add
 push local 0
+push constant 1
+sub
 pop temp 0
 pop pointer 1
 push temp 0
@@ -157,6 +159,7 @@ pop that 0
 push constant 0
 not
 pop local 2
+goto IF_END0
 label IF_FALSE0
 push constant 1
 push local 1
@@ -164,6 +167,7 @@ add
 pop pointer 1
 push that 0
 pop local 1
+label IF_END0
 goto WHILE_EXP0
 label WHILE_END0
 push constant 0

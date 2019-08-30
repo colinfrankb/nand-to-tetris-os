@@ -64,17 +64,6 @@ class Memory {
 
           let nextSegment[0] = nextSegment[0] - (size + 1);  
         }
-        // else {
-        //   if (nextSegment[0] = (size + 2)) {
-        //     let suitableSegment = nextSegment;
-            
-        //     if (~(previousSegment = null)) {
-        //       let previousSegment[1] = nextSegment[1];
-        //     }
-        //   }
-        // }
-
-        //TODO: Return small segment if that's all that's found
 
         let previousSegment = nextSegment;  
         let nextSegment = nextSegment[1];
@@ -96,11 +85,12 @@ class Memory {
 
       while (~(foundEnd)) {
         if (nextSegment[1] = null) {
-          let nextSegment[1] = segment;
+          let nextSegment[1] = segment - 1;
           let foundEnd = true;
+        }
+        else {
+          let nextSegment = nextSegment[1];
         }        
-
-        let nextSegment = nextSegment[1];
       }
 
       return;
